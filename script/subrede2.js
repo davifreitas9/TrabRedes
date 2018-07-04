@@ -1,70 +1,13 @@
 var resultado2;
 var quantidade = -1;
-function retornaClasse(oct1){
-    
-    if( (oct1>0) && (oct1<=127) ){
-        return "Classe A";
-    }else if( (oct1>=128) && (oct1<=191) ){
-        return "Classe B";
-    }else if( (oct1>=192) && (oct1<=223) ){
-        return "Classe C";
-    }else if( (oct1>=224) && (oct1<=239) ){
-        return "Classe D";
-    }else if( (oct1>=240) && (oct1<=255) ){
-        return "Classe E";
-    } 
-}
-function retornaMascara(aux, classe){
-    if (aux == -1) {
-        if( (oct1>0) && (oct1<=127) ){
-            return 255 + " . " + masc(aux) + " . " + 0 + " . " + 0;
-        }else if( (oct1>=128) && (oct1<=191) ){
-            return 255 + " . " + 255 + " . " + masc(aux) + " . " + 0;
-        }else if( (oct1>=192) && (oct1<=255) ){
-            return 255 + " . " + 255 + " . " + 255 + " . " + masc(aux);
-        }
-    } else if ( classe == "Classe A" ) {
-        if( aux<=254 ){
-            aux = Math.ceil(aux); //A função Math.ceil(x) retorna o maior número inteiro maior ou igual a "x".
-            return 255 + " . " + 255 + " . " + 255 + " . " + masc(aux);
-            
-        }else if( (aux>254) && (aux<=65534) ){
-            aux = Math.ceil(aux/256); //A função Math.ceil(x) retorna o maior número inteiro maior ou igual a "x".
-            return 255 + " . " + 255 + " . " + masc(aux) + " . " + 0;
 
-        }else if( (aux>65534) && (aux<=16777214) ){
-            aux = Math.ceil(aux/65536);  //A função Math.ceil(x) retorna o maior número inteiro maior ou igual a "x".
-            return 255 + " . " + masc(aux) + " . " + 0 + " . " + 0;
-            
-        }
-            
-    } else if ( classe == "Classe B" ) {
-        if( aux<=254 ){
-            aux = Math.ceil(aux);   //A função Math.ceil(x) retorna o maior número inteiro maior ou igual a "x".
-            return 255 + " . " + 255 + " . " + 255 + " . " + masc(aux);
-            
-        }else if( (aux>254) && (aux<=65534) ){
-            aux = Math.ceil(aux/256);   //A função Math.ceil(x) retorna o maior número inteiro maior ou igual a "x".
-            return 255 + " . " + 255 + " . " + masc(aux) + " . " + 0;
-
-        }
-    } else if ( (classe == "Classe C")  ) {
-        if( aux<=254 ){
-            aux = Math.ceil(aux);   //A função Math.ceil(x) retorna o maior número inteiro maior ou igual a "x".
-            return 255 + " . " + 255 + " . " + 255 + " . " + masc(aux);
-            
-        } 
-    }
-}
-function calculaHosts(subredes){
-    if(subredes==-1){
-        return -1; //impossivel calcular hosts
-    }else{
-        return (256/subredes)-2; //Subtrai o endereço de rede e broadcast
-    }
+function alteraTipoDoImput(){  
+    document.getElementById("ipQuantidadeSubRede").type = "text";
 }
 
-
+function mantemTipoDoImput(){
+    document.getElementById("ipQuantidadeSubRede").type = "number";
+}
 
 function exibeInformativo(){
     return  "Quantidade de IPs não suportada pelo tipo de Rede </br> </br>" +
@@ -108,6 +51,36 @@ function exibeIntervalosSubRede(subredes, hosts){
     }
 }
 
+//Esse função calcula a quantidade de hosts de acordo com a mascara da rede
+function calculasQuantidadeHosts(mascara){
+        
+    var masc = mascara.split(".");
+    var count=1;
+    
+    const octeto1 = parseInt(masc[0]);
+    const octeto2 = parseInt(masc[1]);
+    const octeto3 = parseInt(masc[2]);
+    const octeto4 = parseInt(masc[3]);
+    
+    count *= (256 - (octeto1));
+    count *= (256 - (octeto2));
+    count *= (256 - (octeto3));
+    count *= (256 - (octeto4));
+
+    return count-2; //Subtrai o endereço de rede e broadcast
+}
+
+//Esse função calcula a quantidade de subredes de acordo com a quantidade de Hosts escolhida pelo usuário
+function calculasQuantidadeSubredes(hosts){
+    //A função Math.floor(x) retorna o menor número inteiro dentre o número "x".
+    if (hosts<=254){
+        return Math.floor(256/(hosts+2));
+    }else if (hosts<=65534){
+        return Math.floor(65536/(hosts+2));
+    }else if(hosts<=16777214){
+        return Math.floor(16777216/(hosts+2));
+    }
+}
 
 //Esse função calcula a quantidade de subredes de acordo com a quantidade de subredes escolhida pelo usuário
 function calculaSubRede(quantidade, classe){
@@ -147,20 +120,22 @@ function calculaSubRede(quantidade, classe){
     }
 }
 
+//Esse função calcula a quantidade de hosts de acordo com a quantidade de subredes
+function calculaHosts(subredes){
+    if(subredes==-1){
+        return -1; //impossivel calcular hosts
+    }else{
+        return (256/subredes)-2; //Subtrai o endereço de rede e broadcast
+    }
+}
 
 function exibeDados() {
     resultado2 += "IP : " + retornaClasse(oct1) + "</br>";
     resultado2 += "Mascara : " + retornaMascara( quantidade, retornaClasse(oct1) ) + "</br>";
-    alert(retornaMascara( quantidade, retornaClasse(oct1) ));
-        if( calculaSubRede(quantidade, retornaClasse(oct1)) != -1 ){
-            resultado2 += "Quantidade de Subredes : " + calculaSubRede(quantidade, retornaClasse(oct1))+ "</br>";
-            resultado2 += "Quantidade de Hosts : " + calculaHosts(calculaSubRede(quantidade,retornaClasse(oct1))) + "</br>";
-            exibeIntervalosSubRede( calculaSubRede(quantidade,  retornaClasse(oct1)), calculaHosts(calculaSubRede(quantidade,  retornaClasse(oct1))) );    
-        } else {
-            resultado2 = exibeInformativoSubRede();
-        }
+    resultado2 += "Quantidade de Subredes : " + (calculasQuantidadeSubredes(calculasQuantidadeHosts(retornaMascara(quantidade, retornaClasse(oct1))))) + "</br>";
+    resultado2 += "Quantidade de Hosts : " + (calculasQuantidadeHosts(retornaMascara(quantidade, retornaClasse(oct1)))) + "</br>";
+    exibeIntervalosSubRede( calculasQuantidadeSubredes(calculasQuantidadeHosts(retornaMascara( quantidade, retornaClasse(oct1) ))), calculasQuantidadeHosts(retornaMascara( quantidade, retornaClasse(oct1))) );
 }
-
 
 function retornaDadosSubRede() {
     if (quantidade === 0) {
@@ -192,7 +167,26 @@ function retornaDadosSubRede() {
     }
 }
 
+function exibeDadosComMascara(mascara) {
+    
+    resultado2 += "IP : " + retornaClasse(oct1) + "</br>";
+    resultado2 += "Mascara : " + mascara + "</br>";
+    resultado2 += "Quantidade de Subredes : " + (calculasQuantidadeSubredes(calculasQuantidadeHosts(mascara))) + "</br>";
+    resultado2 += "Quantidade de Hosts : " + (calculasQuantidadeHosts(mascara)) + "</br>";
+    exibeIntervalosSubRede( calculasQuantidadeSubredes(calculasQuantidadeHosts(mascara)), calculasQuantidadeHosts(mascara) );
+}
 
+function retornaDadosSubRedeComMascara(mascara) {
+
+        if( (retornaClasse(oct1) == "Classe A") || (retornaClasse(oct1) == "Classe B") || (retornaClasse(oct1) == "Classe C") ){
+            exibeDadosComMascara(mascara);
+        } else if (retornaClasse(oct1) == "Classe D"){
+            resultado2 = "Classe D : 224.x.x.x - 239.x.x.x ( Reservado para multicasting )</br>";
+        } else {
+            resultado2 = "Classe E : 240.x.x.x - 254.x.x.x ( Experimental, usado para pesquisa )</br>";
+        }
+        
+}
 
 function exibeSubRede() {
     var tipoInput = document.getElementById("ipQuantidadeSubRede").type;
@@ -208,18 +202,12 @@ function exibeSubRede() {
     if( ((oct1<=0) || (oct2<0) || (oct3<0) || (oct4!=0)) || ((oct1>255) || (oct2>255) || (oct3>255) ) || ( (isNaN(oct1)) || (isNaN(oct2)) || (isNaN(oct3)) || (isNaN(oct4) ) ) ){
         resultado2 = "Rede inválida";
     }else{
-        
-        if(tipoInput=="number"){
             quantidade = document.getElementById("ipQuantidadeSubRede").value;
             if ( (quantidade <= 0) || (quantidade == "") ) {
                 resultado2 = "Quantidade de IPs inválida";
             }else{
                 retornaDadosSubRede();
             }
-        }else if(tipoInput=="text"){
-            var mascara = document.getElementById("ipQuantidadeSubRede").value;
-            retornaDadosSubRedeComMascara(mascara);
-        }
     }
     
     oct1 = "";
