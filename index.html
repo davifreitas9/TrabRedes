@@ -5,6 +5,7 @@
             <title> </title>
             <link rel="stylesheet" href="Bootstrap-4.1.1/css/bootstrap.css">
             <link rel="stylesheet" href="style.css">
+            <script src="script.js"></script>
             
         </head>
         <body>
@@ -16,16 +17,18 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                           <ul class="navbar-nav">
                             <li class="nav-item active">
-                              <a class="nav-link" href="#">Início<span class="sr-only">(current)</span></a>
+                              <a class="nav-link" href="index.html">Início<span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" href="#">Sobre</a>
+                              <a class="nav-link" href="sobre.html">Sobre</a>
                             </li>
                           </ul>
                         </div>
-                      </nav>        
-                <button type="button" class="btn btn-secondary btn-lg btn-block">Calcular pela quantidade de sub-redes</button>
-                <button type="button" class="btn btn-secondary btn-lg btn-block">Calcular pela quantidade de Hosts por sub-redes</button>
-                <button type="button" class="btn btn-secondary btn-lg btn-block">Calcular pela Rede</button>
+                </nav>        
+                <div class="botao">
+                    <button type="button" class=" btn btn-secondary btn-lg btn-block" onClick="Nova()">Calcular pela quantidade de sub-redes</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" onClick="Nova2()">Calcular pela quantidade de Hosts por sub-redes</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" onClick="Nova3()">Calcular pela Rede</button>
+                </div>
         </body>
     </html>

@@ -5,8 +5,7 @@
                 <title> </title>
                 <link rel="stylesheet" href="Bootstrap-4.1.1/css/bootstrap.css">
                 <link rel="stylesheet" href="style.css">
-                <script src="subrede2.js"></script>
-
+                
             </head>
             <body>
                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -20,7 +19,7 @@
                                   <a class="nav-link" href="Sub-redes.html">Calcular pela Quantidade de Sub-redes<span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                  <a class="nav-link" href="hosts.html">Calcular pela Quantidade de Hosts</a>
+                                  <a class="nav-link" href="#hosts.html">Calcular pela Quantidade de Hosts</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="rede.html">Calcular pela Rede</a>
@@ -30,22 +29,14 @@
                     </nav>  
                     <div class="input-group">
                             <div class="input-group-prepend">
-                              <span class="input-group-text">Digite o IP:</span>
+                              <span class="input-group-text" id="">Digite o IP:</span>
                             </div>
-                            <input type="text" class="form-control" id="ipSubRede">
+                            <input type="text" class="form-control">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Digite a quantidade:</span>
+                                <span class="input-group-text" id="">Digite a quantidade:</span>
                             </div>
-                            <input type="number" class="form-control" id="ipQuantidadeSubRede">
-                            <button onclick="exibeSubRede()" type="button" class="btn btn-secondary btn-lg">Calcular</button>
-                    </div>
-                    <div>
-                      <span id="resultado2">
-                          IP Classe : <br/>
-                          Máscara : <br/>
-                          Quantidade de Subredes : <br/>
-                          Quantidade de Hosts : <br/>
-                      </span>
+                            <input type="number" class="form-control">
+                            <button type="button" class="btn btn-secondary btn-lg">Calcular</button>
                     </div>
                     
                     
